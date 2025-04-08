@@ -38,58 +38,45 @@
   </style>
 </head>
 <body>
-  <h1>Запись на индивидуальный курс</h1>
+  <h2>Запись на курс</h2>
+  <form id="form">
+    <label>ФИО:</label><br>
+    <input type="text" name="фио" required><br><br>
 
-  <label for="fio">ФИО:</label>
-  <input type="text" id="fio" placeholder="Введите ваше имя тест" required>
+    <label>Телефон:</label><br>
+    <input type="text" name="телефон" required><br><br>
 
-  <label for="phone">Телефон:</label>
-  <input type="tel" id="phone" placeholder="+7 (___) ___-__-__" required>
+    <input type="hidden" name="дата" id="дата">
+    <input type="hidden" name="время" id="время">
+    <input type="hidden" name="tg_id" id="tg_id">
 
-  <button onclick="submitForm()">Оплатить</button>
-
-  <div class="status" id="status"></div>
+    <button type="submit">Оплатить</button>
+  </form>
 
   <script>
-    const tg = window.Telegram.WebApp;
-    const user_id = tg.initDataUnsafe?.user?.id || 'unknown';
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("дата").value = urlParams.get("дата");
+    document.getElementById("время").value = urlParams.get("время");
+    document.getElementById("tg_id").value = urlParams.get("tg_id");
 
-    // Извлекаем дату и время из URL
-    const params = new URLSearchParams(window.location.search);
-    const date = params.get('дата');
-    const time = params.get('время');
+    document.getElementById("form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
 
-    async function submitForm() {
-      const fio = document.getElementById('fio').value;
-      const phone = document.getElementById('phone').value;
+      try {
+        const res = await fetch("http://127.0.0.1:5000/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
 
-      if (!fio || !phone || !date || !time) {
-        document.getElementById('status').textContent = "Заполните все поля.";
-        return;
+        const text = await res.text();
+        alert(text);
+      } catch (error) {
+        alert("Ошибка при отправке данных.");
       }
-
-      const response = await fetch('/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          тип: 'индивидульный курс',
-          фио: fio,
-          телефон: phone,
-          дата: date,
-          время: time,
-          оплата: "ожидает оплаты",
-          сертефикат: "нет",
-          tg_id: user_id
-        })
-      });
-
-      const result = await response.text();
-      document.getElementById('status').textContent = result;
-
-      tg.close();
-    }
-
-    tg.ready();
+    });
   </script>
 </body>
 </html>
