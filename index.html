@@ -38,23 +38,29 @@
     });
   
     order.addEventListener("click", (e) => {
-      e.preventDefault();
+    e.preventDefault();
 
-      let name = document.getElementById("user_name").value;
-      let email = document.getElementById("user_email").value;
-      let phone = document.getElementById("user_phone").value;
+    let name = document.getElementById("user_name").value;
+    let email = document.getElementById("user_email").value;
+    let phone = document.getElementById("user_phone").value;
 
-      let data = {
-        name: name,
-        email: email,
-        phone: phone,
-      };
+    let data = {
+      name: name,
+      email: email,
+      phone: phone,
+    };
 
-      console.log("Отправка данных:", data); // <-- добавь это
+    console.log("Отправка данных:", data); // Логируем данные перед отправкой
 
+    if (name && email && phone) {
       tg.sendData(JSON.stringify(data));
-      tg.close();
-    });
+      tg.close(); // Закрываем WebApp
+      alert("Данные отправлены!"); // Показать сообщение после отправки
+    } else {
+      alert("Заполните все поля.");
+      console.log("Ошибка: Недостаточно данных.");
+    }
+  });
 
   </script>
   
