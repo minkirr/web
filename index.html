@@ -38,22 +38,24 @@
     });
   
     order.addEventListener("click", (e) => {
-      e.preventDefault(); // <-- ОЧЕНЬ важно
-  
+      e.preventDefault();
+
       let name = document.getElementById("user_name").value;
       let email = document.getElementById("user_email").value;
       let phone = document.getElementById("user_phone").value;
-  
+
       let data = {
         name: name,
         email: email,
         phone: phone,
       };
-  
-      alert("Данные отправлены!");
+
+      console.log("Отправка данных:", data); // <-- добавь это
+
       tg.sendData(JSON.stringify(data));
       tg.close();
     });
+
   </script>
   
   
