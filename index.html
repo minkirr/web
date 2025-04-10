@@ -25,7 +25,7 @@
     <button id="order">оформить</button>
   </form>
 
-  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <script>
     let tg = window.Telegram.WebApp;
     let buy = document.getElementById("buy");
@@ -48,10 +48,14 @@
         phone: phone,
       };
   
-      tg.sendData(JSON.stringify(data)); // <-- чтобы данные ушли в бота
-      tg.close();
+      // Показать сообщение перед закрытием
+      alert("Данные отправлены!");
+  
+      tg.sendData(JSON.stringify(data)); // Отправляем данные боту
+      tg.close(); // Закрываем WebApp
     });
-  </script>  
+  </script>
+  
 </body>
 
 </html>
