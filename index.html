@@ -37,7 +37,9 @@
       document.getElementById("form").style.display = "block";
     });
   
-    order.addEventListener("click", () => {
+    order.addEventListener("click", (e) => {
+      e.preventDefault(); // <-- ОЧЕНЬ важно
+  
       let name = document.getElementById("user_name").value;
       let email = document.getElementById("user_email").value;
       let phone = document.getElementById("user_phone").value;
@@ -48,13 +50,12 @@
         phone: phone,
       };
   
-      // Показать сообщение перед закрытием
       alert("Данные отправлены!");
-  
-      tg.sendData(JSON.stringify(data)); // Отправляем данные боту
-      tg.close(); // Закрываем WebApp
+      tg.sendData(JSON.stringify(data));
+      tg.close();
     });
   </script>
+  
   
 </body>
 
