@@ -5,11 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>form</title>
   <style>
-
     #form {
       display: none;
     }
-
   </style>
 </head>
 <body>
@@ -38,33 +36,28 @@
     });
   
     order.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    let name = document.getElementById("user_name").value;
-    let email = document.getElementById("user_email").value;
-    let phone = document.getElementById("user_phone").value;
-
-    let data = {
-      name: name,
-      email: email,
-      phone: phone,
-    };
-
-    console.log("Отправка данных:", data); // Логируем данные перед отправкой
-
-    if (name && email && phone) {
-      tg.sendData(JSON.stringify(data));
-      tg.close(); // Закрываем WebApp
-      alert("Данные отправлены!"); // Показать сообщение после отправки
-    } else {
-      alert("Заполните все поля.");
-      console.log("Ошибка: Недостаточно данных.");
-    }
-  });
-
+      e.preventDefault();  // Отмена стандартного поведения кнопки
+      let name = document.getElementById("user_name").value;
+      let email = document.getElementById("user_email").value;
+      let phone = document.getElementById("user_phone").value;
+  
+      let data = {
+        name: name,
+        email: email,
+        phone: phone,
+      };
+  
+      console.log("Отправка данных:", data); // Логирование отправляемых данных
+  
+      if (name && email && phone) {
+        tg.sendData(JSON.stringify(data));  // Отправка данных боту
+        tg.close();  // Закрытие WebApp
+        alert("Данные отправлены!");  // Сообщение о том, что данные отправлены
+      } else {
+        alert("Заполните все поля.");
+        console.log("Ошибка: Недостаточно данных.");
+      }
+    });
   </script>
-  
-  
 </body>
-
 </html>
