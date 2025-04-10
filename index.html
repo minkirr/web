@@ -2,81 +2,55 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Индивидуальный курс</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>form</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f5f5f5;
+
+    #form {
+      display: none;
     }
-    label, input, button {
-      display: block;
-      margin: 10px 0;
-      width: 100%;
-      max-width: 400px;
-    }
-    input {
-      padding: 8px;
-      font-size: 16px;
-    }
-    button {
-      padding: 10px;
-      font-size: 18px;
-      background-color: #0088cc;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #006699;
-    }
-    .status {
-      margin-top: 20px;
-      font-weight: bold;
-    }
+
   </style>
 </head>
 <body>
-  <h2>Запись на курс</h2>
+  <div id="main">
+    <h1>Онлайн магазин</h1>
+    <p>пу пу пу</p> 
+    <button id="buy">Kупить</button>
+  </div>
   <form id="form">
-    <label>ФИО:</label><br>
-    <input type="text" name="фио" required><br><br>
-
-    <label>Телефон:</label><br>
-    <input type="text" name="телефон" required><br><br>
-
-    <input type="hidden" name="дата" id="дата">
-    <input type="hidden" name="время" id="время">
-    <input type="hidden" name="tg_id" id="tg_id">
-
-    <button type="submit">Оплатить</button>
+    <input type="text" placeholder="имя" id="user_name">
+    <input type="text" placeholder="почта" id="user_email">
+    <input type="text" placeholder="телефон" id="user_phone">
+    <button id="order">оформить</button>
   </form>
 
+  <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    document.getElementById("дата").value = urlParams.get("дата");
-    document.getElementById("время").value = urlParams.get("время");
-    document.getElementById("tg_id").value = urlParams.get("tg_id");
+    let tg = window.Telegram.Webapp;
+    let buy = document.getElementById("buy")
+    let order = document.getElementById("order")
+    tg.expand();
 
-    document.getElementById("form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
+    buy.addEventListener("click", () => {
+      document.getElementById("main").style.display = "none";
+      document.getElementById("form").style.display = "block";
+    })
+      
+    order.addEventListener("click", () => {
+      let name = document.getElementById("user_name").value;
+      let email = document.getElementById("user_email").value;
+      let phone = document.getElementById("user_phone").value;
+      })
 
-      try {
-        const res = await fetch("http://127.0.0.1:5000/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-
-        const text = await res.text();
-        alert(text);
-      } catch (error) {
-        alert("Ошибка при отправке данных.");
+      let data = {
+        name: name,
+        email: email,
+        phone: phone,
       }
-    });
+      tg.close();
+
   </script>
 </body>
+
 </html>
